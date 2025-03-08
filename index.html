@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countries API Documentation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+<div class="max-w-4xl mx-auto p-8">
+  <h1 class="text-3xl font-bold mb-6 text-blue-600">Countries API Documentation</h1>
+
+  <p class="mb-4">This API provides country data with various filtering options.</p>
+
+  <h2 class="text-2xl font-semibold mt-6">Endpoints</h2>
+
+  <div class="mt-4 space-y-6">
+    <div class="p-4 bg-white rounded-lg shadow">
+      <h3 class="text-xl font-bold">Get All Countries</h3>
+      <p class="text-gray-700">Returns a list of all countries.</p>
+      <code class="block bg-gray-200 p-2 rounded">GET /countries</code>
+    </div>
+
+    <div class="p-4 bg-white rounded-lg shadow">
+      <h3 class="text-xl font-bold">Get Country by Name</h3>
+      <p class="text-gray-700">Searches for a country by partial name.</p>
+      <code class="block bg-gray-200 p-2 rounded">GET /countries/name/{name}</code>
+    </div>
+
+    <div class="p-4 bg-white rounded-lg shadow">
+      <h3 class="text-xl font-bold">Get Country by Full Name</h3>
+      <p class="text-gray-700">Searches for a country by exact full name.</p>
+      <code class="block bg-gray-200 p-2 rounded">GET /countries/fullname/{name}</code>
+    </div>
+
+    <div class="p-4 bg-white rounded-lg shadow">
+      <h3 class="text-xl font-bold">Get Country by Code</h3>
+      <p class="text-gray-700">Searches for a country by its cca2, cca3, ccn3, or cioc code.</p>
+      <code class="block bg-gray-200 p-2 rounded">GET /countries/code/{code}</code>
+    </div>
+
+    <div class="p-4 bg-white rounded-lg shadow">
+      <h3 class="text-xl font-bold">Get Countries by Multiple Codes</h3>
+      <p class="text-gray-700">Retrieve multiple countries by passing a list of codes as a query parameter.</p>
+      <code class="block bg-gray-200 p-2 rounded">GET /countries/codes?codes=USA,CAN,MEX</code>
+    </div>
+  </div>
+
+  <h2 class="text-2xl font-semibold mt-6">Filtering Fields</h2>
+  <p class="mt-2 text-gray-700">You can filter the response to include only specific fields using the <code>fields</code> query parameter.</p>
+  <code class="block bg-gray-200 p-2 rounded mt-2">GET /countries?fields=name.common,capital</code>
+</div>
+</body>
+</html>

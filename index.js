@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const { get } = require('radash');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -13,14 +14,19 @@ const countries = JSON.parse(
 // Middleware for JSON response
 app.use(express.json());
 
-// Helper function to filter fields
+// Helper function to filter fields, including deep nested fields using radash
 const filterFields = (data, fields) => {
   if (!fields) return data;
   const fieldList = fields.split(',');
   return Array.isArray(data)
-    ? data.map(country => Object.fromEntries(Object.entries(country).filter(([key]) => fieldList.includes(key))))
-    : Object.fromEntries(Object.entries(data).filter(([key]) => fieldList.includes(key)));
+    ? data.map(country => Object.fromEntries(fieldList.map(field => [field, get(country, field)]).filter(([, value]) => value !== undefined)))
+    : Object.fromEntries(fieldList.map(field => [field, get(data, field)]).filter(([, value]) => value !== undefined));
 };
+
+// Serve API documentation
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 // Get all countries
 app.get('/countries', (req, res) => {
