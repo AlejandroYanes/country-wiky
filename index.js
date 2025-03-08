@@ -40,14 +40,17 @@ app.use((err, req, res, next) => {
 
 // Get all countries
 app.get('/countries', (req, res) => {
-  console.log(`Request to /countries`);
   res.json(filterFields(countries, req.query.fields));
 });
 
 // Get country by name (partial match)
 app.get('/countries/name/:name', (req, res) => {
   const { name } = req.params;
-  console.log(`Request to /countries/name/${name}`);
+
+  if (!name) {
+    res.status(404).json({ error: "Parameter 'name' is required" });
+  }
+
   const result = countries.filter(country =>
     country.name.common.toLowerCase().includes(name.toLowerCase()) ||
     country.name.official.toLowerCase().includes(name.toLowerCase())
@@ -58,7 +61,11 @@ app.get('/countries/name/:name', (req, res) => {
 // Get country by full name (exact match)
 app.get('/countries/fullname/:name', (req, res) => {
   const { name } = req.params;
-  console.log(`Request to /countries/fullname/${name}`);
+
+  if (!name) {
+    res.status(404).json({ error: "Parameter 'name' is required" });
+  }
+
   const result = countries.filter(country =>
     country.name.common.toLowerCase() === name.toLowerCase() ||
     country.name.official.toLowerCase() === name.toLowerCase()
@@ -69,7 +76,11 @@ app.get('/countries/fullname/:name', (req, res) => {
 // Get country by code (cca2, cca3, ccn3, cioc)
 app.get('/countries/code/:code', (req, res) => {
   const { code } = req.params;
-  console.log(`Request to /countries/code/${code}`);
+
+  if (!code) {
+    res.status(404).json({ error: "Parameter 'code' is required" });
+  }
+
   const result = countries.find(country =>
     country.cca2.toLowerCase() === code.toLowerCase() ||
     country.cca3.toLowerCase() === code.toLowerCase() ||
@@ -84,7 +95,6 @@ app.get('/countries/codes', (req, res) => {
   if (!req.query.codes) {
     return res.status(400).json({ error: "Query parameter 'codes' is required" });
   }
-  console.log(`Request to /countries/codes with codes: ${codes}`);
 
   const codes = req.query.codes.split(',');
 
@@ -101,7 +111,10 @@ app.get('/countries/codes', (req, res) => {
 app.get('/countries/alpha/:code', (req, res) => {
   const { code } = req.params;
 
-  console.log(`Request to /countries/codes with codes: ${codes}`);
+  if (!code) {
+    return res.status(400).json({ error: "Parameter 'code' is required" });
+  }
+
   const result = countries.find(country =>
     country.cca2.toLowerCase() === code.toLowerCase() ||
     country.cca3.toLowerCase() === code.toLowerCase() ||
@@ -114,6 +127,11 @@ app.get('/countries/alpha/:code', (req, res) => {
 // Get country by currency
 app.get('/countries/currency/:currency', (req, res) => {
   const { currency } = req.params;
+
+  if (!currency) {
+    return res.status(400).json({ error: "Parameter 'currency' is required" });
+  }
+
   const result = countries.filter(country => country.currencies && country.currencies[currency]);
   res.json(filterFields(result, req.query.fields));
 });
@@ -121,6 +139,11 @@ app.get('/countries/currency/:currency', (req, res) => {
 // Get country by demonym
 app.get('/countries/demonym/:demonym', (req, res) => {
   const { demonym } = req.params;
+
+  if (!demonym) {
+    return res.status(400).json({ error: "Parameter 'demonym' is required" });
+  }
+
   const result = countries.filter(country =>
     country.demonyms?.eng?.m.toLowerCase() === demonym.toLowerCase() ||
     country.demonyms?.eng?.f.toLowerCase() === demonym.toLowerCase()
@@ -131,6 +154,11 @@ app.get('/countries/demonym/:demonym', (req, res) => {
 // Get country by language
 app.get('/countries/lang/:language', (req, res) => {
   const { language } = req.params;
+
+  if (!language) {
+    return res.status(400).json({ error: "Parameter 'language' is required" });
+  }
+
   const result = countries.filter(country => Object.values(country.languages || {}).includes(language));
   res.json(filterFields(result, req.query.fields));
 });
@@ -138,6 +166,11 @@ app.get('/countries/lang/:language', (req, res) => {
 // Get country by capital
 app.get('/countries/capital/:capital', (req, res) => {
   const { capital } = req.params;
+
+  if (!capital) {
+    return res.status(400).json({ error: "Parameter 'capital' is required" });
+  }
+
   const result = countries.filter(country => country.capital && country.capital.includes(capital));
   res.json(filterFields(result, req.query.fields));
 });
@@ -145,6 +178,11 @@ app.get('/countries/capital/:capital', (req, res) => {
 // Get country by region
 app.get('/countries/region/:region', (req, res) => {
   const { region } = req.params;
+
+  if (!region) {
+    return res.status(400).json({ error: "Parameter 'region' is required" });
+  }
+
   const result = countries.filter(country => country.region.toLowerCase() === region.toLowerCase());
   res.json(filterFields(result, req.query.fields));
 });
@@ -152,6 +190,11 @@ app.get('/countries/region/:region', (req, res) => {
 // Get country by subregion
 app.get('/countries/subregion/:subregion', (req, res) => {
   const { subregion } = req.params;
+
+  if (!subregion) {
+    return res.status(400).json({ error: "Parameter 'subregion' is required" });
+  }
+
   const result = countries.filter(country => country.subregion.toLowerCase() === subregion.toLowerCase());
   res.json(filterFields(result, req.query.fields));
 });
@@ -159,6 +202,11 @@ app.get('/countries/subregion/:subregion', (req, res) => {
 // Get country by translation name
 app.get('/countries/translation/:translation', (req, res) => {
   const { translation } = req.params;
+
+  if (!translation) {
+    return res.status(400).json({ error: "Parameter 'translation' is required" });
+  }
+
   const result = countries.filter(country =>
     Object.values(country.translations || {}).some(t => t.common.toLowerCase() === translation.toLowerCase())
   );
