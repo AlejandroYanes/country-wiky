@@ -1,0 +1,16 @@
+{
+  "name": "country-wiki",
+  "version": "0.0.1",
+  "description": "\"A simple REST server to provide commonly used info about contries\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "\"expres.js",
+    "countries",
+    "rest\""
+  ],
+  "author": "",
+  "license": "MIT"
+}
