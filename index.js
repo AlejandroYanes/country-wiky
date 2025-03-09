@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { get } = require('radash');
 const morgan = require('morgan');
+const cors = require('cors');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -20,6 +21,8 @@ const filterFields = (data, fields) => {
     ? data.map(country => Object.fromEntries(fieldList.map(field => [field, get(country, field)]).filter(([, value]) => value !== undefined)))
     : Object.fromEntries(fieldList.map(field => [field, get(data, field)]).filter(([, value]) => value !== undefined));
 };
+
+app.use(cors());
 
 // Middleware for logging requests
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'));

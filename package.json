@@ -14,8 +14,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "cors": "2.8.5",
     "express": "4.21.2",
-    "morgan": "^1.10.0",
-    "radash": "^12.1.0"
+    "morgan": "1.10.0",
+    "radash": "12.1.0"
   }
 }
